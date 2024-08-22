@@ -77,6 +77,7 @@ Now, the original appeal of polynomials was that:
 Luckily, rational functions have the same properties, although they involve some more complexity. Let's see how our setup behaves with composition, trying out 3 layers first.
 
 Say we have polynomials $P(x)$ of degree $n$, $Q(x)$ of degree $m$, $R(x)$ of degree $l$. We apply our formula for the activation functions, in that order:
+
 1. $$\frac{x^n}{P(x)}$$
 2. $$\frac{x^m}{Q(x)}$$
 3. $$\frac{x^l}{R(x)}$$
@@ -84,7 +85,25 @@ Say we have polynomials $P(x)$ of degree $n$, $Q(x)$ of degree $m$, $R(x)$ of de
 The result is:
 
 1. $$\frac{x^n}{P(x)}$$
-2. $$\frac{(\frac{x^m}{Q(x)})^n}{P\left(\frac{x^m}{Q(x)}\right)}$$
-3. $$\frac{\left(\frac{\left(\frac{x^l}{R(x)}\right)^m}{Q\left(\frac{x^l}{R(x)}\right)}\right)^n}{P\left(\frac{\left(\frac{x^l}{R(x)}\right)^m}{Q\left(\frac{x^l}{R(x)}\right)}\right)}$$
+2. $$\frac{\left(\frac{x^m}{Q(x)}\right)^n}{P\left(\frac{x^m}{Q(x)}\right)}=\frac{x^{mn}}{Q(x)^nP\left(\frac{x^m}{Q(x)}\right)}$$
+3. $$\frac{\left(\frac{\left(\frac{x^l}{R(x)}\right)^m}{Q\left(\frac{x^l}{R(x)}\right)}\right)^n}{P\left(\frac{\left(\frac{x^l}{R(x)}\right)^m}{Q\left(\frac{x^l}{R(x)}\right)}\right)}=\frac{x^{lmn}}{R(x)^{mn}{Q\left(\frac{x^l}{R(x)}\right)^nP\left(\frac{x^{lm}}{R(x)^mQ\left(\frac{x^l}{R(x)}\right)}\right)}}$$
 
-So, this formula looks somewhat scary, but the hope is that the degree stays normalized, so it behaves nicely.
+So, this formula looks somewhat scary, but the hope is that the degree stays normalized, so it behaves nicely. We see that each iteration can be simplified to put a power of $x$ in the numerator and a product of polynomials functions applied to rational functions in the denominator.
+
+<!-- There are a lot of expressions where we apply a polynomial to a rational function with a power of $x$ in the numerator and a polynomial in the denominator. Let's try to simplify using the fact that $P\left(\frac{1}{x}\right)=\frac{P_r(x)}{x^n}$, where $P_r(x)$ is the polynomial but with its coefficients reversed: $P(x)=a_nx^n+...+a_0$ gives $P_r(x)=a_0x^n+...+a_n$. Then if we apply it to our expressions, we get
+
+$$
+Q\left(\frac{x^l}{R(x)}\right)=
+$$
+
+
+$$
+\frac{\left(\frac{\left(\frac{x^l}{R(x)}\right)^m}{Q\left(\frac{x^l}{R(x)}\right)}\right)^n}{P\left(\frac{\left(\frac{x^l}{R(x)}\right)^m}{Q\left(\frac{x^l}{R(x)}\right)}\right)}=
+$$ -->
+
+Let's try with a concrete example. I'll work through an example in hopes of gaining some intuition.
+
+1. $$P(x):=2x+3$$
+2. $$Q(x):=5x^2+7x+11$$
+3. $$R(x):=13x^3+17x^2+19x+23$$
+
