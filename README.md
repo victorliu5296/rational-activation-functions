@@ -9,7 +9,7 @@ Polynomial functions have unbounded images. This is problematic as it leads to e
 ## Setup
 A specific case of rational functions is an extension of the polynomials, called "Laurent polynomials". These are polynomials that allow terms with integer exponents, including negative ones, rather than restricting them to nonnegative integers.
 
-Rational functions can have horizontal asymptotes that restrict their image. This allows one to limit the possible range of values without having to clip (which leads to annoying discontinuities and whatnot).
+Rational functions can have horizontal asymptotes that restrict their image. This allows one to limit the possible range of values without having to clip (which leads to annoying discontinuities in the derivative and whatnot).
 
 For instance, let's take the polynomial
 $$P(x):=3x^2+2x+1$$
@@ -31,16 +31,44 @@ As you can see, the function is very well-behaved and the derivative visually lo
 
 This activation function is a rational function, specifically the reciprocal of a Laurent polynomial. This way, if we take the derivative, we only need the power rule, the chain rule and the linearity of derivatives. For instance:
 
-$$\frac{d}{dx}\frac{1}{\frac{3x^2+2x+1}{x^2}}=\frac{d}{dx}\left(3+2x^{-1}+x^{-2} \right)^{-1}=\frac{-2x^{-2}-2x^{-3}}{(3+2x^{-1}+x^{-2})^2}$$
+$$
+\begin{aligned}
+\frac{d}{dx}\frac{1}{\frac{3x^2+2x+1}{x^2}}
+&=\frac{d}{dx}\left(3+2x^{-1}+x^{-2} \right)^{-1} \\
+&=\frac{-2x^{-2}-2x^{-3}}{(3+2x^{-1}+x^{-2})^2} \\
+&=\frac{(x^2)^2(-2x^{-2}-2x^{-3})}{(3x^2+2x+x)^2}
+\end{aligned}
+$$
 
 As I write this, I am thinking that using the quotient rule directly is probably simpler. Let's try:
 
-$$\frac{d}{dx}\left(\frac{x^2}{3x^2+2x+1}\right)= \frac{2x(3x^2+2x+1)-x^2(6x+2)}{(3x^2+2x+1)^2}$$
+$$
+\begin{aligned}
+\frac{d}{dx}\left(\frac{x^2}{3x^2+2x+1}\right)&=\frac{2x(3x^2+2x+1)-x^2(6x+2)}{(3x^2+2x+1)^2}
+\end{aligned}
+$$
+I don't see an obvious pattern like in the previous one, so we'll revert to the previous form. We have that
+
+$$
+\frac{d}{dx}\left(\frac{P(x)}{x^n}\right)=\frac{nx^{n-1}P(x)-x^n\frac{d}{dx}P(x)}{x^{2n}}
+$$
+
+So the numerator can be written as
+
+$$
+nx^{n-1}P(x)-x^n\frac{d}{dx}P(x)=x^{2n}\frac{d}{dx}\left(\frac{P(x)}{x^n}\right)
+$$
 
 In general, for a polynomial $P(x)$ with degree $n$, we can expect
-$$\frac{d}{dx}\left(\frac{x^n}{P(x)}\right)= \frac{nx^{n-1}(P(x))-x^n(\frac{d}{dx}P(x))}{(P(x))^2}=\frac{x^{n-1}(nP(x)-xP'(x))}{(P(x))^2}$$
 
-This can be simplified algebraically if needed, although you can probably evaluate it using Horner's method or something quite quickly. You can re-use the same coefficients, shift by 1 and multiply by the index to compute the derivative. I don't know about numerical instability, but neural networks seem robust to less precision with some techniques.
+$$
+\begin{aligned}
+\frac{d}{dx}\left(\frac{x^n}{P(x)}\right)&=\frac{nx^{n-1}(P(x))-x^n(\frac{d}{dx}P(x))}{(P(x))^2} \\
+&=\frac{x^{2n}\frac{d}{dx}\left(\frac{P(x)}{x^n}\right)}{(P(x))^2}
+\end{aligned}
+$$
+
+Since $\frac{P(x)}{x^n}$ is a Laurent polynomial, which is very simple to differentiate, then this form is probably easier to work with.
 
 Now, the original appeal of polynomials was that:
 1. Composing them gives another polynomial
