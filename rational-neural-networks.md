@@ -1,0 +1,5 @@
+Here are my thoughts on the "Rational Neural Networks" paper.
+
+After overviewing the main ideas in the "Rational Neural Networks" paper, I think their approach might be better than my original thoughts, simply using a full polynomial for both the numerator and the denominator. Based on empirical results, here are 2 potential improvements to test out experimentally: 
+1. Seeing the empirical success of the ReLU^2 activation function, something interesting to try out would be type (4,2) rational functions. Something about quadratic curvature works well
+2. Exploding gradients is problematic. Avoiding poles would help significantly. For the case of (n, 2) functions, it will be very simple to do this since you can calculate the discriminant of the quadratic polynomial in the denominator to ensure it has no real roots. For larger degrees, you can use Sturm's theorem, but it's more costly. Larger degrees could lead to instability, I think their approach of sticking to smaller degrees is good.
