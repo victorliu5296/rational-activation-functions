@@ -16,12 +16,12 @@ Therefore, we only need 6 parameters. This is a very simple optimization to make
 
 In practice, models learn better when things are simpler. They are less over-parameterized and by extension less prone to overfitting.
 
-Then, to address the poles, we can leverage the nice properties of quadratic polynomials by rewriting its vertex form, $(x-h)^2+k$. If we force $k>0$, then the quadratic function has no roots! Therefore, we will not have to deal with the headache of poles. So we could have
+Then, to address the poles, we can leverage the nice properties of quadratic polynomials by rewriting its vertex form, $(x-h)^2+k$. If we force $k>0$, then the quadratic function has no roots! Therefore, we will not have to deal with the headache of poles. For this, I propose we use the exponential function and reparameterize to $k=e^c$. This is because the exponential function is always positive and it is smooth, which tends to be helpful for gradient descent in neural networks.
 
 $$
-f(x):=\frac{a_3x^3+a_2x^2+a_1x+a_0}{(x-h)^2+k}
+f(x):=\frac{a_3x^3+a_2x^2+a_1x+a_0}{(x-h)^2+e^c}
 $$
 
-This is maybe a nice indication that quadratic functions might be the nicest to use in the denominator of these rational activation functions. With $k>0$, the entire denominator is also positive ($>0$), which means that the function will be guaranteed continuous on the entire real number line. 
+This is maybe a nice indication that quadratic functions might be the nicest to use in the denominator of these rational activation functions. With $e^c>0$, the entire denominator is also positive ($>0$), which means that the function will be guaranteed continuous on the entire real number line.
 
-The numerator needs more investigation to see what works best.
+The numerator needs more investigation to see what works best, but if they have the same expressivity, it should be possible to learn approximately the same representations.
